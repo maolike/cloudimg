@@ -1,0 +1,457 @@
+季度目标：
+1. YY9品牌改版升级， YY版本需求
+2. 64位UID + VS2015改造
+3. CEF，进程改进 , （非隔离进程开始灰度，离屏进程统一）
+4. 教育模板Web化开发
+5. 频道C++组件Web化推进
+6. 开播技术统一
+7. 娱乐Web全量，内存优化和CPU优化达到优于原生（和3一起）
+8. Web模板自动化测试
+9. 1v1语音
+10. 尚云内置
+11. CEF 安全TAG头上线
+
+my:
+1、教育模板web化
+2、客户端避免测试环境发到线上
+3、YY9.0品牌升级
+
+today:
+todo:
+2、教育模板web的窗口的拖拽；与后台通信
+3、测试环境发到线上的问题，整理讨论
+4、找一下托盘区那个yy熊icon的图标
+did:
+
+1、更新web测试环境判断
+2、上报加上yy.lg、yyexternal.lg、yyhost.lg、yyvideoservice.lg；最好是lg格式；同时关注一下异常情况退出导致未delete干净tmpfiles的情况
+3、教育模板web的窗口的拖拽
+
+qstring怎么条件断点
+7z合并
+
+
+7/19
+1、教育模板web 与后台通信调通
+2、用户故障：表情弹窗自动关闭（广告窗口拦截）、进入约战/娱乐频道断网（单进程、禁掉组件目录）、登陆蓝屏
+
+YY熊：
+托盘区：yydisable-8
+const char KTrayIconMenuForeground[] = {":/theme/duifw/menu/trayIconMenu_frame_foreground.png"};
+const char KTrayIconMenuBackgroundImage[] = {":/theme/duifw/menu/trayIconMenu_frame_background.png"};
+
+频道和IM默认头像：D:\pcyys\90fb\packages\mainframe\yycommonresource\theme\faces
+
+讨论组头像：mul_talk d:\pcyys\90fb 这么搜
+
+手机YY：
+系统菜单YYStatusPanel::on_menuButton_clicked
+所有服务-》手机应用-》手机YY头像是xml里配置的
+// 服务器上“所有服务”菜单xml配置文件的请求URL
+const char KDownloadAllServiceMenuXmlUrl[] = "http://do-dw.yy.com/yy-menus.xml";
+
+聊天对话框右侧：
+官方认证： YYImPersonalLogic::on_CustomerInfo  file:///D:/pcyys/90fb/packages/mainframe/yymainframe/theme/mainframe/customerheadbig.webp
+公会：YYImPersonalLogic::on_GuildAuthInfo imchat_guild.png
+默认：default_yyshow.webp
+
+关于窗口：
+aboutyy.xml  yyabout.webp
+
+帮助-YY官网：
+icon_yyhomepage.png
+
+升级提示：
+D:\pcyys\90fb\packages\tools\UpdateV2\yylauncher\res
+yylauncher.ico需要增加96x96的32位bmp
+
+状态栏YY熊：
+YYMainMenuButton  mainmenu_normal.png mainmenu_hover.png mainmenu_pess.png
+
+官方消息YY熊：
+官方消息通过配置中心拿到url设置进去；officialNewsChatItem_config url找吴瑾配 YYOfficialNewsTreeViewItem::_setDefaultResource
+
+状态栏底部图标都要换：
+statuspannel.xml
+icon_setting_indicator.png
+icon_find_indicator.png
+
+YY9.0熊exe发布时前：
+1、cefdev2发布 yyhost进程头像
+2、YYOfficialNewsTreeViewItem::_setDefaultResource 官方消息通过配置中心拿到url设置进去；url找吴瑾配
+3、手机YY头像是xml里配置的 http://do-dw.yy.com/yy-menus.xml  运营配置
+http://bs2samplebucket.bs2cdn.yy.com/pcyy-skin/48x48 - 官方消息 拷贝.png?id=13232
+{"avatar":"http://bs2samplebucket.bs2cdn.yy.com/gamemassage/图层 17.png?id=11063","nickname":"官方消息","description":"YY官方资讯公告"}
+7.26
+1、9.0YY熊提测；9.0YY ui修复
+2、web教育模板教师控制区域UI实现
+3、故障处理：
+
+故障：
+1、好友消息重复：数据库问题
+2、分享窗口里的IM列表群组未显示；UID==0的情况
+3、切频道断网 更新显卡、改了网络设置就OK了
+yy9.0提测
+
+协议的制定：
+1、兼容性：增加字段
+2、扩展性；增加一种开播方式
+3、协议一旦制定后期就不好动了
+
+业务找到一块负责的
+技术找到一块自己能支撑的
+
+升2-3:
+
+
+8月27号
+1、用户故障：1、用户弹出cefdev2弹窗，看直播的时候render进程内存涨起来
+2、问题反馈：1、支持配置中心配置，配置的话文件和文件夹都支持 2、产品建议同步到虾哥
+3、网盘收尾、更新课堂协议代码适配
+4、
+
+8月30号
+1、uid64review
+
+9月13号：
+1、4个皮肤的问题，
+a、YY主面板的皮肤和设置的比例不对（正常现象）；
+b、设置之后下次登录不对（看日志发现是正常的，联系用户处理;联系用户之后拿到日志发现abtest 还会去设置皮肤覆盖了之前后台下发的）
+c、YYImChatWidgetImpl::setDecorationImage IYYImChatWidget组件接口没用？
+d、每次更新客户端版本 主面板的皮肤成为默认
+因为更新版本可能把缓存删掉了，因为我们是在登陆成功之后2到3s才会收到协议的回调；
+
+教育模板：
+2、和产品对之后，桌面分享UI交互和UI改动了一版
+3、网盘点击BUG
+4、加了教师的协议接口给UI调用
+5、web页render时机调整
+6、加上了频道树、麦序、管理里的右键菜单
+
+
+9月24号：
+教育模板：
+1、发送框修复，基础库warning提示
+2、接入了预览组件，推流相关的接口
+3、PPT上传失败
+4、增加协议 因为配置分了个人和频道
+5、设置里的2项
+6、home和频道页
+7、强制下课
+故障：登陆YY崩溃退出
+
+9月28
+上传或者转换失败的逻辑处理
+https 域名改动
+线上故障
+提示
+看需求 定排期
+
+TODO list:
+反馈支持换行符
+自测用例：
+1、公屏发送图片失败 
+2、分享课件√
+3、开播按钮去掉
+
+问题:
+render进程CPU高：
+1、cefdev2 68098  pcyy: 9.1发布版本
+频道号：71886 娱乐模板但是呈现基础模板的样子
+频道号：9687
+libcef.dll cef_string_utf16_to_up
+
+十一之后工作计划安排：
+1、教育模板问题继续跟进
+2、用户故障高CPU问题跟进
+3、游戏名片需求开始
+4、有空看看其他人做的东西的实现
+
+
+
+打开新窗口： window.external.sendCommand("createCefUrlWindow","{\"url\":\"www.baidu.com\",\"width\":\"800\",\"height\":\"600\",\"webHasClose\":\"true\",\"bgTransparent\":\"true\",\"dragRect\":\"0|0|800|100\"}")
+window.external.sendCommand("createCefUrlWindow","{\"url\":\"http://localhost:3007/\",\"width\":\"800\",\"height\":\"600\",\"webHasClose\":\"true\",\"bgTransparent\":\"true\",\"dragRect\":\"0|0|800|100\"}")
+关闭窗口： window.external.sendCommand("closeWindow")  在要关闭的web页里调用
+
+1、桌面分享的改变
+2、中文字符串放到i18n里面
+
+
+dice:
+1、YYDiceRoundHistoryTab::writeFinalResultToFile(const QString &path)  path
+
+
+
+
+http://tagee.yy.com/#/project/700/master/interface/5e07ebff4aaaa919b2bd38ad08dee468
+
+http://tagee.yy.com/#/project/493/test/interface/bc4c83e15d546ef9a0815c215becc731/mock/record/b5497f4ace28a066415df99e8dfa5ffa
+
+
+YYIPC::sendMessageToWindow(0,"sadf")发送到频道页
+
+
+
+由于之前用户在PCYY“问题反馈”里反馈进不去频道的线上故障，我们没及时关注到，为了避免这种情况
+后续计划在“问题反馈”也接入告警，下午跟浩浩、月哥对了一下，期望可以通过以下3种方式来配置告警：
+1、问题的类型：通过配置，选择某个时间段内某个问题类型，总数超过阈值短信告警
+2、总量：通过配置，选择某个时间段内的问题反馈，总数超过阈值短信告警
+3、关键字：通过配置，选择某个时间段内的问题反馈的内容描述，匹配关键字，总数超过阈值短信告警
+同时每个告警配置可以指定短信通知的人员
+
+week:
+1、摇色子故障；拉了日志没找到当天的，本地未复现，让后台拉一下数据给用户 同时后续关注
+2、娱乐模板频道设置 游客发言最大字数
+3、新反馈系统告警
+4、游戏名片联调
+
+5、娱乐模板 举报
+6、设置撤销讲师 右键公屏或者频道树那里需要一个menu销毁的信号来清除缓存数据
+
+
+window.CefWindow.openBrowserWindow(
+              {
+                url: 'www.baidu.com',
+                offscreen: true,
+                transparent: true,
+                frameless: false,
+                visible: true,
+                topMost: true,
+                showInTaskbar: true,
+                border: 3,
+              },
+              true
+            )
+
+YY.mapLocalResource('D:/edu/web/src/assets/imgs/png','edu://')
+
+1、跟吴传庚讨论一下占位图那个问题
+2、需求发布之前更新appid为正式环境，gamecard组件域名也用正式环境的
+
+cefdev2发版
+pcyy集成包
+web教育模板更新协议
+
+
+weekly:
+1、新反馈告警
+2、教育模板：1、大视频 2、占位图
+3、游戏名片
+
+1、p2pmsg 时序问题
+2、切模板的后台感知
+
+找个时间对一下？ 主要2个问题：1、切换模板(吴传庚 罗少奇)  2、P2PMSG乱序（客户端） 3、消息中间件（压测使用同一个通道的业务全凉凉？）
+
+
+搜索 //needFix 需要修改的
+桌面分享搬迁事宜：
+选择自由分享模式：DsPresenterWidget::_onSigFixedModeSelected
+1、一台机器只允许一个账号桌面分享 DsPresenterWidget::_getPublishMutex
+2、改变频道窗口ui状态
+DsPresenterWidget：sigFixedModeSelected --->DsDesktopMainFrame: sigFixedModeSelected
+---->DsPresenterControler:onSigFixedModeSelected
+3、翻译汉化
+
+桌面分享的center界面：DsDesktopMainFrame
+
+
+11/8
+1、新疆开播 √
+2、桌面分享缩小窗口状态 √
+3、优化：chrome播放视频 通过本地视频播放器，打开本地文件框 √
+4、桌面分享GPU、CPU消耗问题; cpu通过避免信号重复触发来降低 √
+5、resize问题 频道窗口的样式属性和cefwindow的样式属性不一致影响到
+
+misc_5.xml
+config.ini
+bm COMDLG32!GetOpenFileName*
+
+11/15
+1、web教育模板 文件选择对话框
+故障： 1、win10用的cefdev
+2、精彩世界空白
+
+提测邮件
+登陆隐私需求
+
+飞机票的逻辑也整理下
+https://doc.yy.com/pages/viewpage.action?pageId=133641242
+就放这里就可以
+
+
+无法找到msvcp90.dll
+重新编译
+The linker embeds a manifest in the .exe that tells Windows what DLLs from the side-by-side cache are needed.  
+You'll find that .manifest file back in your build directory.  A new machine will need to have those DLLs installed.
+
+
+lwycs_001、qwer1234
+cef先加载08
+然后把05覆盖过去
+
+
+1、登陆
+2、反馈告警重复发两次；后端：集群的prod都触发了告警处理了
+3、大频道的一些BUG；控麦放麦 用户会白屏；以及设置管理员，管理员列表不会立马出现；数据库表没改
+4、用户故障
+5、飞机票流程梳理
+
+
+
+
+I.*Ptr
+
+
+
+
+
+YYTicket
+1、udbticket
+2、利用IYYTicketSimulator透传数据到指定的组件dll
+3、通过IYYTicket接受组件dll数据返回
+4、利用IYYTicketSimulator  emitTicket
+5、YYTicket::openEnthall 跟YY进程挂钩；通过YY进程打开窗口 组件enthall在yy里
+
+工作：
+1、飞机票组件提供的能力转成非组件提供
+2、emitTicketEx，组件不存在则加载组件再触发飞机票
+3、
+
+
+合并进程，web调c++接口 还没返回cookie就拿到ticket 导致web拿不到ticket
+
+
+IYYChannelInfomation 去组件化
+
+getChannelRow；getAsid；getSid；getChannelName；getCurSubSid；getCurChannelStyle；getChannelSimpleInfos；getDisplayName；
+hasJiedai；isJieDaiSubSid；hasJieDaiSubSid;getChannelFieldSet;getTotalUserCount;getChannelTable;getChannelTextStatus
+isHugeChannel;
+：依赖频道数据库（IDatabase）;整个dc的逻辑，包括进频道创建dc，dc的信号连接；（至少2天）
+
+getCurSubSidChangedSignal；
+依赖IDatabase信号;还依赖msgcenter信号（？天）；CBizChannelDataBase::_notifyCurChannelChanged发出信号给cchannel上层再到组件
+getJoinedSignal：
+接client_protocol protocol::session::ETSessStatus::STATUS_VALID;理清进频道与client_protocol协议之间的逻辑并接入（至少2天）
+getLeavedSignal：
+1、接登陆模块登出信号；2、IChannel组件leave()方法，调protocol::session::SessLeaveReq给协议层
+getCurChannelStyleChangedSignal：
+接protocol::session::EVENT_SESS_STYLE_CHANGE协议
+getDataArrivedSignal：
+依赖IYYChannelLogic组件（？天）
+getSpeakerRtt；getPing
+依赖IChannelVoice组件（？天）
+getCurChannelInfoChangedSignal；getSigChannelTable；getSigManagerList；getSigChannelFieldSet；
+依赖IDatabase信号
+leave()
+依赖IChannel组件leave()方法
+hasMoreUsers;asynGetMoreUsers
+没用的
+
+notifyUpdateUsers;getSearchResult;getSearchResultResSignal;getSigSubscribeUidsReady;getSigScrollbarInfo;
+getSigCurSidConfirmed;
+client_protocol
+
+isExist;isFolder;getSigJumpSubChannelNeedPassword;getSigJumpSubChannelFail;getSigJumpSubChannelNeedCharge
+依赖IChannelMemberList（？天）
+
+
+querySubChannelManagerList
+依赖IChannelAllManger（？天）
+
+getAppTotalUserCount 
+IChannel挂钩
+
+2. 去组件化实现：位于sdk1，保留原YY Biz层，去掉组件的接口，但要尽量保证FGChannel层的改动小。
+3. 进频道问题：由客户端实现进频道逻辑，进频道协议调用sdk1提供的接口；创建web模板由anchor_common提供接口(已有)  
+4. 本地缓存：由客户端做加载和缓存逻辑。
+5. PCYY和SDK公用代码： 确保只用一份，可以由SDK提供即可
+6. YY开播产品形态及各阶段提测： 目前暂无计划
+7. cefcore和内核要统一： 这个需要再安排人力
+8. 音频：客户端和videoservice通过微服务接入，无需sdk内部处理。
+9. 登陆： 由sdk1封装client_protocol、bdlogin、三方登陆，提供接口供客户端调用，包括二次验证所需的信息
+
+
+channel（64位）
+
+sdk2:
+  非YY：
+    1、joinChannel
+    2、YYRoot
+    m_rootObject = new YYRoot;
+    m_localStorage = new YYLocalStorage(NULL);
+  YY:
+    1、去掉bizchannel,提供接口对标DwBizChannelLancher组件：createChannel、createTempChannel
+    2、暴露出频道接口的头文件（原来yy的频道接口在bizchannel里）
+    3、YYRoot
+
+sdk1:
+createChannel
+
+静态链接延迟加载：
+https://docs.microsoft.com/en-us/cpp/build/reference/linker-support-for-delay-loaded-dlls?view=msvc-170&viewFallbackFrom=vs-2019
+
+1、在新的sdk1把yybizchannel移植过去编译通过
+2、在新的sdk2把之前写的cefchannel相关的代码移过去，去掉组件接口，整理一下整个结构
+
+question:
+1、compatible::convertToNewGameTikcet 兼容之前的文本
+如果要做，vip那个兼容设计到外部组件：
+convertToVipFacePattern
+
+2、processChannelTicketText
+涉及到comMgr()->componentNameByAlias
+
+3、sdk和组件通信的问题；linkKey == YYChannelLink::KLinkExtraInfo
+
+
+YYChannelMessageUtility::_uploadImageAsNeed
+YYChannelUserChatImageWrapper
+
+-------------------------------------------------------------------------------------
+YYChannelUInfo---》datacenter_helper::CUserInfoHelper
+已处理问题：
+yychannel sdk去组件化的时候遇到的问题；
+频道发送公屏消息中，会对发送文本做如下处理：
+1、对文本做一个版本兼容性替换，比如yy4.0的游戏飞机票的协议是yy://ddt；yy5.0之后的是yy://yxdt-[key=ddt]；如果匹配上了4.0飞机票，则替换成5.0的；
+Q:这个处理过程调用到了yyvip组件；当面对这种外部组件的逻辑的时候怎么处理？
+A:老的兼容性逻辑先去掉
+
+2、匹配组件飞机票，然后调用组件处理文本；这个过程它是通过正则表达式找到组件的别名；再调用对应组件处理；
+Q:在sdk里是否也要拉取组件后台的信息 并把对应组件飞机票的逻辑实现一份？
+A:飞机票的逻辑放在js里，他们处理完了再调jsapi来发送；
+
+3、发送消息时，需要字体属性，那些属性设置保存在本地；
+Q:现在设置保存在哪
+A:上传应用自己保存，发送的时候传参带入设置属性
+sameas:私聊自动回复；
+也是上层自己保存设置，自己处理消息来了是否自己回复的逻辑
+
+
+疑问：
+1、passport放在yychannel_sdk还是yyprotocol_sdk
+2、IYYChannelUserChatImage 截图发公屏之前 图片缓存到服务器；依赖improtocol模块；需要重写？
+3、configcenter 发送http请求需要带上客户端参数等；这个是不是放在web去取数据更好；不过有些是sdk内部到拉取配置获取的数据；这个可以
+弄一个新的类型 不要放在yy的配置里；
+A:sdk不做这个configcenter;
+
+4、需要尽快有个demo依赖yychannel_sdk来跑一下登陆等流程；目前撸了很多没反馈；
+5、存在很多临时屏蔽的代码 比如：__fromFontInfo；存在改变执行结果
+
+6、测试环境与正式环境的区分
+A:2个sdk;通过sdk1来区分；通过配置文件
+
+
+
+----------------------------------------------------------
+已知问题暂未处理：
+1、IYYChannelUserChatImage 截图发公屏之前 图片缓存到服务器；依赖improtocol模块；需要重写
+
+待处理：
+有个事情你也帮忙先记下来, TLS1.2发版后，
+1. client_protocol依赖framework2015最新的，带了TLS1.2的，并且client_protocol要是uid64位的，目前YY补丁版没发版，先不弄
+2. yyprotocol里面的与登陆有关的都要改为64位的，等YY64位登陆测的OK了再移植过来
+3. yyprotocol和yychannel依赖framework的要更新到最新版本
+4. openssl升级
+
+
